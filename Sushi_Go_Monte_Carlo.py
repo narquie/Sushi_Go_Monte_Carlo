@@ -297,15 +297,47 @@ class Deck(object):
                 index_list.append(index)
         max_puddy_list = index_list
         for i in max_puddy_list:
+            print("Pudding Winners")
+            print(i)
             self.players_list[i].score += 6
         min_puddy = min(pudding_list)
         index_list = []
         for index, i in enumerate(pudding_list):
-            if i == max_puddy:
+            if i == min_puddy:
                 index_list.append(index)
-        max_puddy_list = index_list
-        for i in max_puddy_list:
+        min_puddy_list = index_list
+        for i in min_puddy_list:
+            print("Pudding Losers")
+            print(i)
             self.players_list[i].score -= 6
+        return None
+    def declare_winner(self):
+        temp_list = []
+        for i in self.players_list:
+            temp_list.append(i.score)
+        max_score = max(temp_list)
+        max_index = []
+        for index,i in enumerate(temp_list):
+            if i == max_score:
+                max_index.append(index)
+        if len(max_index) > 1:
+            tiebreaker_list = [0]*self.num_players
+            for i in max_index:
+                count = 0
+                for j in self.players_list[i].cards_in_play:
+                    if j.number == 9:
+                        count += 1
+                tiebreaker_list[i] = count
+            max_tiebreaker = max(tiebreaker_list)
+            tiebreaker_max_list = []
+            for index,i in enumerate(tiebreaker_list):
+                if i == max_tiebreaker:
+                    tiebreaker_max_list.append(1)
+            return(tiebreaker_list)
+        else:
+            return(max_index[0])
+
+
 
 # One episode with scoring
 new_game = Deck("original",4)
@@ -332,3 +364,4 @@ new_game.score_pudding()
 print(new_game.report_board_state())
 for j in new_game.players_list:
     print(j.score)
+print(new_game.declare_winner())
