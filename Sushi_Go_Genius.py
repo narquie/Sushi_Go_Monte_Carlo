@@ -1,8 +1,9 @@
-import Sushi_Go_Monte_Carlo as SG
+import Sushi_Go_Monte_Carlo_Class as SG
 import numpy as np
 from collections import defaultdict
 import sys
-def mc_control(num_episodes, alpha, gamma=.8, epsilon=1,epsilon_decay=.9999,eps_min=.05):
+import pickle
+def mc_control(num_episodes, alpha, gamma=.9999, epsilon=1,epsilon_decay=.9999,eps_min=.05):
     def epsilon_greedy(Q_temp,state,epsilon,actions):
         probs = [1-epsilon, epsilon]
         action = np.random.choice(np.arange(2), p=probs)
@@ -12,7 +13,7 @@ def mc_control(num_episodes, alpha, gamma=.8, epsilon=1,epsilon_decay=.9999,eps_
                 temp_list[i-1] = (Q_temp[tuple(state)][i-1]) + 1000
             elif i > 10:
                 temp_number = int(round((i-10)*10)+10-2)
-                temp_list[temp_number] = (Q_temp[tuple(state)][temp_number]) + 1000
+                temp_list[temp_number] = (Q_temp[tuple(state)][temp_number])  + 1000
         if action == 0:
             action = np.argmax(temp_list)
             if action == 9:
@@ -114,4 +115,13 @@ def mc_control(num_episodes, alpha, gamma=.8, epsilon=1,epsilon_decay=.9999,eps_
             reward = sum(rewards[i:]*discounts[:-(1+i)])
             Q[tuple(state)][actions[i]] = Q[tuple(state)][actions[i]]+alpha*(reward - Q[tuple(state)][actions[i]])
     return policy, Q
-policy, Q = mc_control(1000000, .01)
+#policy, Q = mc_control(1000000, .01)
+policy, Q = mc_control(1000, .01)
+Q = dict(Q)
+output = open('Q_values.pkl', 'wb')
+pickle.dump(Q,output)
+output.close()
+#input = open('Q_values.pkl', 'rb')
+#Q_new = pickle.load(input)
+#input.close()
+#print(Q_new)
