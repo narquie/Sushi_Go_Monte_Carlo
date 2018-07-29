@@ -65,6 +65,7 @@ class Player(object):
                 self.hand_cards_to_next_player()
                 break
         return None
+    # Playing two cards through chopsticks
     def play_cards_chopstick(self,actions):
         original_score = self.score
         self.chopstick = False
@@ -231,6 +232,7 @@ class Deck(object):
         for i in range(0,self.num_players):
             self.players_list.append(Player(self,i))
         return None
+    # Create initial deck of cards
     def init_deck_cards_original(self):
         self.deck_cards = []
         for i in range(1,60):
@@ -364,6 +366,7 @@ class Deck(object):
             self.players_list[i].score -= 6
             self.players_list[i].reward = -6
         return None
+    # Declares winner based on index
     def declare_winner(self):
         temp_list = []
         for i in self.players_list:
