@@ -56,6 +56,8 @@ class Player(object):
                     self.wasabi = True
                 if i.number == 7:
                     self.chopstick = True
+                if i.number >10 and i.number <11:
+                    self.maki_rolls += i.number_rolls
                 self.played_card = i
                 self.player_hand.remove(i)
                 self.add_score(self.played_card)
@@ -77,6 +79,8 @@ class Player(object):
                         self.wasabi = True
                     if i.number == 7:
                         self.chopstick = True
+                    if i.number >10 and i.number <11:
+                        self.maki_rolls += i.number_rolls
                     self.played_card = i
                     self.player_hand.remove(i)
                     self.add_score(self.played_card)
@@ -87,12 +91,24 @@ class Player(object):
         self.cards_in_play.remove(chopstick_card)
         self.hand_cards_to_next_player()
         return(None)
+    # Sum maki total
+    def maki_roll_total(self):
+        for i in self.cards_in_play:
+            if i.number == 10.1:
+                self.maki_rolls += 1
+            if i.number == 10.2:
+                self.maki_rolls += 2
+            if i.number == 10.3:
+                self.maki_rolls += 3
+        return None
     # Set down awaiting_hand
     def hand_cards_to_next_player(self):
         if self.player_position != (self.deck.num_players-1):
             self.deck.players_list[self.player_position+1].awaiting_hand = self.player_hand
         elif self.player_position == self.deck.num_players-1:
             self.deck.players_list[0].awaiting_hand = self.player_hand
+        #self.maki_roll_total()
+        return None
     # Pick up awaiting_hand
     def take_cards_from_other_player(self):
         if self.awaiting_hand is not None:
@@ -204,6 +220,8 @@ class Deck(object):
         self.setup = setup
         self.num_players = num_players
         self.players_list = []
+        self.player_actions_current = []
+        self.player_actions_total = []
         if self.setup == "original":
             self.init_deck_cards_original()
         self.init_players()
@@ -268,10 +286,9 @@ class Deck(object):
         return(temp_list)
     # Declares the current board state with num cards, maki rolls, score
     def report_board_state(self):
-        temp_list_cards = [0]*12
         end_list_cards = []
         for i in self.players_list:
-            current_list_cards = temp_list_cards
+            current_list_cards = [0]*12
             for j in i.cards_in_play:
                 if j.number < 10:
                     current_list_cards[j.number-1] += 1
@@ -280,19 +297,12 @@ class Deck(object):
                     current_list_cards[num_temp] += 1
             current_list_cards.append(i.maki_rolls)
             current_list_cards.append(i.score)
+            print(len(current_list_cards))
             for j in current_list_cards:
                 end_list_cards.append(j)
         return(end_list_cards)
     # Set up for next round
     def clear_board_state(self):
-        for i in self.players_list:
-            for j in i.cards_in_play:
-                if j.number == 10.1:
-                    i.maki_rolls += 1
-                if j.number == 10.2:
-                    i.maki_rolls += 2
-                if j.number == 10.3:
-                    i.maki_rolls += 3
         # Score Maki
         maki_list = []
         for i in self.players_list:
