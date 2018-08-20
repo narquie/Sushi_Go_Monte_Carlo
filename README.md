@@ -15,6 +15,6 @@ Have fun!
 
 To use, install torch. Follow the commands here to do so: https://pytorch.org/
 
-After Use, run Sushi_Go_Player_DQN_No_Win_Reward.py (name refers to how the bot is trained)
+After download, run Sushi_Go_Player_DQN_No_Win_Reward.py (name refers to how the bot is trained)
 
 Rest of the rules same as above
