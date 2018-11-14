@@ -11,10 +11,19 @@ UI isn't great, but tells you all available actions "Categorized As:" and the bo
 
 Have fun!
 
-!Edit: Advanced AI is now out!
+Edit: Advanced AI is now out!
 
 To use, install torch. Follow the commands here to do so: https://pytorch.org/
 
 After download, run Sushi_Go_Player_DQN_No_Win_Reward.py (name refers to how the bot is trained)
+
+Rest of the rules same as above
+
+
+Edit2: Challenging AI is now out (no longer beaten by just drafting sashimi)!
+
+To use, install torch. Follow the commands here to do so: https://pytorch.org/
+
+After download, run Sushi_Go_Player_DQN_Hand_DPPG_Multi.py (name refers to how the bot is trained)
 
 Rest of the rules same as above
